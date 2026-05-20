@@ -1,0 +1,163 @@
+"use client";
+
+import Link from "next/link";
+import { useLanguage } from "@/lib/language-context";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { motion } from "motion/react";
+import { supabase } from "@/lib/supabase";
+import { LogOut } from "lucide-react";
+
+export default function Navbar() {
+  const { lang, setLang, t } = useLanguage();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<{ email: string; credit_balance: number } | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("Auth error:", error);
+          setUser(null);
+          return;
+        }
+
+        if (session?.user) {
+          // Fetch real credit balance from public.profiles
+          const { data: profile, error: profileError } = await supabase
+            .from("profiles")
+            .select("credit_balance")
+            .eq("id", session.user.id)
+            .single();
+          
+          if (profileError) {
+             console.error("Profile error:", profileError);
+          }
+
+          setUser({
+            email: session.user.email || "user@example.com",
+            credit_balance: profile?.credit_balance || 0,
+          });
+        } else {
+          setUser(null);
+        }
+      } catch (err) {
+        console.error("Supabase fetch failed:", err);
+        setUser(null);
+      }
+    };
+
+    fetchUser();
+    
+    try {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+        fetchUser();
+      });
+
+      return () => {
+        subscription?.unsubscribe();
+      };
+    } catch (err) {
+      console.error("Auth listener error:", err);
+    }
+  }, []);
+
+  const handleLogOut = async () => {
+    await supabase.auth.signOut();
+    router.push("/");
+  };
+
+  return (
+    <motion.nav 
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/60 border-b border-[#FCFAFA] shadow-[0_4px_20px_-4px_rgba(210,180,167,0.2)]"
+    >
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <Link href="/" className="flex items-center space-x-2 group">
+          <div className="w-8 h-8 rounded-full bg-[#3A3331] flex items-center justify-center transition-transform duration-500 group-hover:rotate-180">
+            <div className="w-2 h-2 rounded-full bg-[#FCFAFA]" />
+          </div>
+          <span className="font-serif text-xl tracking-wide text-[#3A3331] font-semibold">
+            Aura
+          </span>
+        </Link>
+
+        <div className="flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-6 text-sm font-sans tracking-wide">
+            <Link 
+              href="/classes" 
+              className={`transition-colors duration-300 ${pathname === "/classes" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
+            >
+              {t.classes}
+            </Link>
+            <Link 
+              href="/credits" 
+              className={`transition-colors duration-300 ${pathname === "/credits" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
+            >
+              {t.credits}
+            </Link>
+            <Link 
+              href="/profile" 
+              className={`transition-colors duration-300 ${pathname === "/profile" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
+            >
+              {t.profile}
+            </Link>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            {/* Language Switcher */}
+            <div className="flex items-center space-x-1 bg-[#FCFAFA] p-1 rounded-full border border-gray-100">
+              <button
+                onClick={() => setLang("en")}
+                className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-300 ${lang === "en" ? "bg-white text-[#3A3331] shadow-sm" : "text-[#5C5351] hover:text-[#3A3331]"}`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLang("ro")}
+                className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-300 ${lang === "ro" ? "bg-white text-[#3A3331] shadow-sm" : "text-[#5C5351] hover:text-[#3A3331]"}`}
+              >
+                RO
+              </button>
+            </div>
+
+            {/* Credit Balance Pill */}
+            {user && (
+              <Link href="/profile" className="hidden sm:flex items-center space-x-2 bg-[#EAF0E4] border border-[#8F9D82]/30 px-4 py-1.5 rounded-full hover:bg-white transition-colors duration-300">
+                <span className="w-2 h-2 rounded-full bg-[#8F9D82] animate-pulse" />
+                <span className="text-sm font-medium text-[#8F9D82]">
+                  {user.credit_balance} cr
+                </span>
+              </Link>
+            )}
+
+            {/* Account CTA */}
+            {!user ? (
+              <Link href="/auth/login" className="px-5 py-2 rounded-full bg-[#C29D8D] text-white text-sm font-semibold hover:bg-[#A98273] transition-colors duration-300 shadow-[0_4px_10px_-2px_rgba(210,180,167,0.4)] hover:shadow-[0_4px_15px_-2px_rgba(190,157,143,0.5)]">
+                {t.login}
+              </Link>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link href="/profile" className="w-10 h-10 rounded-full bg-[#FCFAFA] border border-gray-100 flex items-center justify-center font-serif text-[#3A3331] hover:bg-white transition-colors duration-300 uppercase shadow-sm">
+                  {user.email.charAt(0)}
+                </Link>
+                <button
+                  onClick={handleLogOut}
+                  className="w-10 h-10 flex items-center justify-center rounded-full text-[#5C5351] hover:text-red-500 hover:bg-red-50 transition-colors duration-300"
+                  title="Log Out"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </motion.nav>
+  );
+}
