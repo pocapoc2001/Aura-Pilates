@@ -9,10 +9,12 @@ import { use } from "react";
 import { MapPin, Star, CalendarDays, Clock, Check, ShowerHead, Car, Droplets, Coffee, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function StudioPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { t } = useLanguage();
+  const router = useRouter();
   
   const [studio, setStudio] = useState<Studio | null>(null);
   const [classes, setClasses] = useState<ClassSession[]>([]);
@@ -43,7 +45,7 @@ export default function StudioPage({ params }: { params: Promise<{ id: string }>
   const handleBook = async (classId: string) => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-      window.location.href = "/auth/login";
+      router.push("/auth/login");
       return;
     }
 

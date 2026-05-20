@@ -98,25 +98,38 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center space-x-6">
-          <div className="hidden md:flex items-center space-x-6 text-sm font-sans tracking-wide">
-            <Link 
-              href="/classes" 
-              className={`transition-colors duration-300 ${pathname === "/classes" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
-            >
-              {t.classes}
-            </Link>
-            <Link 
-              href="/credits" 
-              className={`transition-colors duration-300 ${pathname === "/credits" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
-            >
-              {t.credits}
-            </Link>
-            <Link 
-              href="/profile" 
-              className={`transition-colors duration-300 ${pathname === "/profile" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
-            >
-              {t.profile}
-            </Link>
+          <div className="hidden lg:flex items-center space-x-6 text-sm font-sans tracking-wide">
+            {!user ? (
+              <>
+                <Link href="/credits" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Prețuri</Link>
+                <Link href="/classes" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Studiouri partenere</Link>
+                <Link href="#" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Despre</Link>
+                <Link href="#" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Pentru companii</Link>
+                <Link href="#" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Blog</Link>
+                <Link href="#" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Contact</Link>
+              </>
+            ) : (
+              <>
+                <Link 
+                  href="/classes" 
+                  className={`transition-colors duration-300 ${pathname === "/classes" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
+                >
+                  {t.classes}
+                </Link>
+                <Link 
+                  href="/credits" 
+                  className={`transition-colors duration-300 ${pathname === "/credits" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
+                >
+                  {t.credits}
+                </Link>
+                <Link 
+                  href="/profile" 
+                  className={`transition-colors duration-300 ${pathname === "/profile" ? "text-[#3A3331] font-semibold" : "text-[#5C5351] hover:text-[#3A3331]"}`}
+                >
+                  {t.profile}
+                </Link>
+              </>
+            )}
           </div>
 
           <div className="flex items-center space-x-4">

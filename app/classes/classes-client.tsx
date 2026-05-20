@@ -9,6 +9,7 @@ import { Search, MapPin, Clock, CalendarDays, ExternalLink } from "lucide-react"
 
 import { APIProvider, Map, AdvancedMarker, Pin, useMap } from '@vis.gl/react-google-maps';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 // Component to handle pan and zoom when a marker is selected
 const MapUpdater = ({ selectedClassId, classes }: { selectedClassId: string | null, classes: ClassSession[] }) => {
@@ -35,6 +36,8 @@ export default function ClassesClient({ mapsKey }: { mapsKey: string }) {
   // Filter State
   const [activityType, setActivityType] = useState<string>("All");
   const [timeOfDay, setTimeOfDay] = useState<string>("All");
+
+  const router = useRouter();
 
   // Sync State
   const [hoveredClassId, setHoveredClassId] = useState<string | null>(null);
@@ -68,7 +71,7 @@ export default function ClassesClient({ mapsKey }: { mapsKey: string }) {
   const handleBook = async (classId: string) => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-      window.location.href = "/auth/login";
+      router.push("/auth/login");
       return;
     }
 

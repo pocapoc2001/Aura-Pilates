@@ -90,7 +90,7 @@ const INITIAL_CLASSES: ClassSession[] = [
     time_of_day: "Morning",
     date: "2026-05-21",
     time: "08:00 AM",
-    price: 2,
+    price: 14,
     spots_total: 10,
     booked_spots: 8,
     lat: 44.456,
@@ -106,7 +106,7 @@ const INITIAL_CLASSES: ClassSession[] = [
     time_of_day: "Morning",
     date: "2026-05-21",
     time: "10:00 AM",
-    price: 3,
+    price: 20,
     spots_total: 8,
     booked_spots: 8,
     lat: 44.456,
@@ -122,7 +122,7 @@ const INITIAL_CLASSES: ClassSession[] = [
     time_of_day: "Morning",
     date: "2026-05-22",
     time: "07:30 AM",
-    price: 1,
+    price: 8,
     spots_total: 15,
     booked_spots: 5,
     lat: 44.467,
@@ -138,7 +138,7 @@ const INITIAL_CLASSES: ClassSession[] = [
     time_of_day: "Evening",
     date: "2026-05-22",
     time: "18:00 PM",
-    price: 2,
+    price: 16,
     spots_total: 12,
     booked_spots: 11,
     lat: 44.469,
@@ -154,7 +154,7 @@ const INITIAL_CLASSES: ClassSession[] = [
     time_of_day: "Afternoon",
     date: "2026-05-22",
     time: "13:00 PM",
-    price: 2,
+    price: 10,
     spots_total: 15,
     booked_spots: 2,
     lat: 44.467,
@@ -170,7 +170,7 @@ const INITIAL_CLASSES: ClassSession[] = [
     time_of_day: "Evening",
     date: "2026-05-23",
     time: "19:30 PM",
-    price: 2,
+    price: 10,
     spots_total: 20,
     booked_spots: 12,
     lat: 44.469,
@@ -181,7 +181,7 @@ const INITIAL_CLASSES: ClassSession[] = [
 const INITIAL_USER: User = {
   id: "usr_1",
   name: "Alexandru",
-  credit_balance: 20,
+  credit_balance: 40,
 };
 
 function getStorage(key: string) {
@@ -202,23 +202,23 @@ function setStorage(key: string, value: string) {
 // Utility to act as our Database Connection
 export const supabaseMock = {
   initialize() {
-    if (!getStorage("aura_studios")) {
-      setStorage("aura_studios", JSON.stringify(INITIAL_STUDIOS));
+    if (!getStorage("aura_studios_v2")) {
+      setStorage("aura_studios_v2", JSON.stringify(INITIAL_STUDIOS));
     }
-    if (!getStorage("aura_classes")) {
-      setStorage("aura_classes", JSON.stringify(INITIAL_CLASSES));
+    if (!getStorage("aura_classes_v2")) {
+      setStorage("aura_classes_v2", JSON.stringify(INITIAL_CLASSES));
     }
-    if (!getStorage("aura_user")) {
-      setStorage("aura_user", JSON.stringify(INITIAL_USER));
+    if (!getStorage("aura_user_v2")) {
+      setStorage("aura_user_v2", JSON.stringify(INITIAL_USER));
     }
-    if (!getStorage("aura_bookings")) {
-      setStorage("aura_bookings", JSON.stringify([]));
+    if (!getStorage("aura_bookings_v2")) {
+      setStorage("aura_bookings_v2", JSON.stringify([]));
     }
   },
 
   async getStudios(): Promise<Studio[]> {
     this.initialize();
-    return JSON.parse(getStorage("aura_studios") || "[]");
+    return JSON.parse(getStorage("aura_studios_v2") || "[]");
   },
 
   async getStudioById(id: string): Promise<Studio | null> {
@@ -228,12 +228,12 @@ export const supabaseMock = {
 
   async getClasses(): Promise<ClassSession[]> {
     this.initialize();
-    return JSON.parse(getStorage("aura_classes") || "[]");
+    return JSON.parse(getStorage("aura_classes_v2") || "[]");
   },
 
   async getUser(): Promise<User> {
     this.initialize();
-    const localUser = JSON.parse(getStorage("aura_user") || "{}");
+    const localUser = JSON.parse(getStorage("aura_user_v2") || "{}");
     
     // Check real supabase user
     try {
@@ -271,11 +271,11 @@ export const supabaseMock = {
           .eq("id", user.id);
         if (updateErr) console.error("Add credits update err:", updateErr);
       } else {
-        setStorage("aura_user", JSON.stringify(updatedUser));
+        setStorage("aura_user_v2", JSON.stringify(updatedUser));
       }
     } catch (e) {
       console.error(e);
-      setStorage("aura_user", JSON.stringify(updatedUser));
+      setStorage("aura_user_v2", JSON.stringify(updatedUser));
     }
 
     return { success: true };
@@ -283,7 +283,7 @@ export const supabaseMock = {
 
   async getBookings(): Promise<Booking[]> {
     this.initialize();
-    return JSON.parse(getStorage("aura_bookings") || "[]");
+    return JSON.parse(getStorage("aura_bookings_v2") || "[]");
   },
 
   async bookClass(classId: string): Promise<{ success: boolean; message: string }> {
@@ -333,11 +333,11 @@ export const supabaseMock = {
           }
         }
       } else {
-        setStorage("aura_user", JSON.stringify(updatedUser));
+        setStorage("aura_user_v2", JSON.stringify(updatedUser));
       }
     } catch (e) {
       console.error(e);
-      setStorage("aura_user", JSON.stringify(updatedUser));
+      setStorage("aura_user_v2", JSON.stringify(updatedUser));
     }
     
     const newBooking: Booking = {
@@ -349,8 +349,8 @@ export const supabaseMock = {
     const updatedBookings = [...bookings, newBooking];
 
     // Commit to simulate DB saving
-    setStorage("aura_classes", JSON.stringify(updatedClasses));
-    setStorage("aura_bookings", JSON.stringify(updatedBookings));
+    setStorage("aura_classes_v2", JSON.stringify(updatedClasses));
+    setStorage("aura_bookings_v2", JSON.stringify(updatedBookings));
 
     return { success: true, message: "Booked successfully" };
   },
@@ -384,16 +384,16 @@ export const supabaseMock = {
           .eq("id", user.id);
         if (updateErr) console.error("Cancel update err:", updateErr);
       } else {
-        setStorage("aura_user", JSON.stringify(updatedUser));
+        setStorage("aura_user_v2", JSON.stringify(updatedUser));
       }
     } catch (e) {
       console.error(e);
-      setStorage("aura_user", JSON.stringify(updatedUser));
+      setStorage("aura_user_v2", JSON.stringify(updatedUser));
     }
 
     // Commit
-    setStorage("aura_classes", JSON.stringify(updatedClasses));
-    setStorage("aura_bookings", JSON.stringify(updatedBookings));
+    setStorage("aura_classes_v2", JSON.stringify(updatedClasses));
+    setStorage("aura_bookings_v2", JSON.stringify(updatedBookings));
 
     return { success: true, message: "Canceled successfully" };
   },

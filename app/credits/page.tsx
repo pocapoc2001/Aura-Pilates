@@ -102,11 +102,11 @@ export default function CreditsPage() {
             transition={{ duration: 0.6 }}
           >
             <span className="text-[#8F9D82] font-semibold tracking-widest uppercase text-sm mb-4 block">
-              Membership Tiers
+              Abonamente Lunare
             </span>
-            <h1 className="font-serif text-5xl md:text-6xl text-[#3A3331] mb-6">Invest in Your Practice</h1>
+            <h1 className="font-serif text-5xl md:text-6xl text-[#3A3331] mb-6">Investește în starea ta de bine</h1>
             <p className="text-lg text-[#5C5351] font-light leading-relaxed">
-              Flexible access to our entire network of elite studios. Credits never expire. Select the tier that aligns with your wellness routine.
+              Acces flexibil la întreaga noastră rețea de studiouri premium. Alege pachetul care se potrivește stilului tău de viață.
             </p>
           </motion.div>
 
@@ -116,7 +116,7 @@ export default function CreditsPage() {
             transition={{ delay: 0.3 }}
             className="mt-8 inline-flex items-center space-x-2 bg-white px-6 py-3 rounded-full shadow-[0_4px_20px_-4px_rgba(210,180,167,0.2)] border border-gray-50"
           >
-             <span className="text-sm text-[#5C5351]">Current Balance:</span>
+             <span className="text-sm text-[#5C5351]">Balanță Curentă:</span>
              <span className="font-serif text-xl text-[#3A3331] font-semibold">{user.credit_balance} cr</span>
           </motion.div>
         </div>
@@ -134,15 +134,15 @@ export default function CreditsPage() {
               <Zap className="w-6 h-6" />
             </div>
             <h3 className="font-serif text-3xl text-[#3A3331] mb-2">Starter</h3>
-            <p className="text-[#5C5351] font-light mb-8">Perfect for maintaining a weekly routine.</p>
+            <p className="text-[#A98273] font-medium tracking-wide uppercase text-xs mb-8">Primești 20 Credite</p>
             
             <div className="mb-8 flex items-baseline space-x-2">
-              <span className="font-serif text-6xl text-[#3A3331]">10</span>
-              <span className="text-[#8F9D82] font-semibold uppercase tracking-wider">Credits</span>
+              <span className="font-serif text-5xl text-[#3A3331]">149</span>
+              <span className="text-[#5C5351] text-lg font-light">RON / lună</span>
             </div>
             
             <ul className="space-y-4 mb-10 flex-1">
-              {['Access to all Mat Pilates classes', 'Book up to 7 days in advance', 'Standard cancellation policy'].map(feature => (
+              {['Acces la clase Mat Pilates', 'Reportezi maxim 5 credite'].map(feature => (
                 <li key={feature} className="flex items-start text-sm text-[#3A3331]">
                   <Check className="w-5 h-5 text-[#8F9D82] mr-3 flex-shrink-0" />
                   <span className="font-light">{feature}</span>
@@ -151,11 +151,11 @@ export default function CreditsPage() {
             </ul>
             
             <button 
-              onClick={() => handleCheckout(10)}
+              onClick={() => handleCheckout(20)}
               disabled={loading}
               className="w-full py-4 rounded-full bg-[#FCFAFA] text-[#3A3331] border border-gray-100 font-medium hover:bg-[#FAF7F6] transition-colors"
             >
-              Select Starter
+              Alege Starter
             </button>
           </motion.div>
 
@@ -170,22 +170,22 @@ export default function CreditsPage() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#D2B4A7]/10 blur-[80px] rounded-full pointer-events-none" />
             
             <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#D2B4A7] text-white px-4 py-1 rounded-b-xl text-xs font-semibold tracking-widest uppercase">
-              Most Popular
+              Cel mai popular
             </div>
 
             <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#D2B4A7]/10 text-[#D2B4A7] mb-6 relative z-10">
               <Star className="w-7 h-7" />
             </div>
             <h3 className="font-serif text-4xl text-[#3A3331] mb-2 relative z-10">Balance</h3>
-            <p className="text-[#5C5351] font-light mb-8 relative z-10">For the dedicated practitioner focused on evolution.</p>
+            <p className="text-[#A98273] font-medium tracking-wide uppercase text-xs mb-8 relative z-10">Primești 40 Credite</p>
             
             <div className="mb-8 flex items-baseline space-x-2 relative z-10">
-              <span className="font-serif text-7xl text-[#3A3331]">25</span>
-              <span className="text-[#8F9D82] font-semibold uppercase tracking-wider text-lg">Credits</span>
+              <span className="font-serif text-6xl text-[#3A3331]">249</span>
+              <span className="text-[#5C5351] text-xl font-light">RON / lună</span>
             </div>
             
             <ul className="space-y-4 mb-10 flex-1 relative z-10">
-              {['Access to all premium Reformer sessions', 'Priority waitlist across all studios', 'Book up to 14 days in advance', '1 Complimentary guest pass'].map(feature => (
+              {['Acces la studiouri Reformer premium', 'Reportezi maxim 10 credite', 'Fără taxe ascunse'].map(feature => (
                 <li key={feature} className="flex items-start text-sm text-[#3A3331]">
                   <Check className="w-5 h-5 text-[#8F9D82] mr-3 flex-shrink-0" />
                   <span className="font-light">{feature}</span>
@@ -194,11 +194,11 @@ export default function CreditsPage() {
             </ul>
             
             <button 
-              onClick={() => handleCheckout(25)}
+              onClick={() => handleCheckout(40)}
               disabled={loading}
               className="w-full py-4 rounded-full bg-[#C29D8D] hover:bg-[#A98273] text-white font-semibold shadow-[0_4px_20px_-4px_rgba(210,180,167,0.4)] hover:shadow-[0_8px_30px_-4px_rgba(210,180,167,0.5)] transition-all duration-300 relative z-10"
             >
-              Select Balance
+              Alege Balance
             </button>
           </motion.div>
 
@@ -213,15 +213,15 @@ export default function CreditsPage() {
               <Shield className="w-6 h-6" />
             </div>
             <h3 className="font-serif text-3xl text-[#FCFAFA] mb-2">Elite</h3>
-            <p className="text-[#a19692] font-light mb-8">Ultimate flexibility and peak structural performance.</p>
+            <p className="text-[#C29D8D] font-medium tracking-wide uppercase text-xs mb-8">Primești 75 Credite</p>
             
             <div className="mb-8 flex items-baseline space-x-2">
-              <span className="font-serif text-6xl text-[#FCFAFA]">50</span>
-              <span className="text-[#8F9D82] font-semibold uppercase tracking-wider">Credits</span>
+              <span className="font-serif text-5xl text-[#FCFAFA]">399</span>
+             <span className="text-[#FCFAFA]/80 text-lg font-light">RON / lună</span>
             </div>
             
             <ul className="space-y-4 mb-10 flex-1">
-              {['VIP guaranteed placement in any class', 'Exclusive access to specialized workshops', 'Late cancellation forgiveness (3/mo)', 'Book up to 30 days in advance'].map(feature => (
+              {['Acces nelimitat la orice tip de clasă', 'Prioritate pe lista de așteptare'].map(feature => (
                 <li key={feature} className="flex items-start text-sm text-[#FCFAFA]/80">
                   <Check className="w-5 h-5 text-[#8F9D82] mr-3 flex-shrink-0" />
                   <span className="font-light">{feature}</span>
@@ -230,15 +230,46 @@ export default function CreditsPage() {
             </ul>
             
             <button 
-              onClick={() => handleCheckout(50)}
+              onClick={() => handleCheckout(75)}
               disabled={loading}
               className="w-full py-4 rounded-full bg-[#FCFAFA] text-[#3A3331] font-medium hover:bg-white transition-colors"
             >
-              Select Elite
+              Alege Elite
             </button>
           </motion.div>
 
         </div>
+
+        {/* Top-up section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-20 w-full max-w-3xl bg-white p-8 md:p-10 rounded-[2.5rem] border border-gray-50 shadow-[0_4px_20px_-4px_rgba(210,180,167,0.15)] flex flex-col md:flex-row items-center justify-between gap-8 relative z-10"
+        >
+           <div className="text-center md:text-left">
+             <h3 className="font-serif text-2xl text-[#3A3331] mb-2">Ai rămas fără credite luna aceasta?</h3>
+             <p className="text-[#5C5351] font-light text-sm">Creditele extra nu expiră atâta timp cât ai un abonament activ.</p>
+           </div>
+           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+              <button 
+                onClick={() => handleCheckout(5)}
+                disabled={loading}
+                className="px-6 py-3 rounded-2xl bg-[#FCFAFA] border border-[#C29D8D]/30 text-[#3A3331] hover:bg-[#F5EFEB] hover:border-[#C29D8D] font-medium text-sm transition-all whitespace-nowrap flex flex-col items-center justify-center shadow-sm"
+              >
+                  <span>+5 Credite</span>
+                  <span className="text-xs font-light text-[#5C5351] mt-0.5">45 RON</span>
+              </button>
+              <button 
+                onClick={() => handleCheckout(10)}
+                disabled={loading}
+                className="px-6 py-3 rounded-2xl bg-[#FCFAFA] border border-[#C29D8D]/30 text-[#3A3331] hover:bg-[#F5EFEB] hover:border-[#C29D8D] font-medium text-sm transition-all whitespace-nowrap flex flex-col items-center justify-center shadow-sm"
+              >
+                  <span>+10 Credite</span>
+                  <span className="text-xs font-light text-[#5C5351] mt-0.5">80 RON</span>
+              </button>
+           </div>
+        </motion.div>
       </div>
     </div>
   );
