@@ -46,12 +46,13 @@ export default function ClassesClient({ mapsKey }: { mapsKey: string }) {
   const fetchState = async () => {
     const { data: { session } } = await supabase.auth.getSession();
     
-    const [allClasses, allBookings] = await Promise.all([
+    const [allClasses, allBookings, user] = await Promise.all([
       supabaseMock.getClasses(),
-      session ? supabaseMock.getBookings() : Promise.resolve([])
+      session ? supabaseMock.getBookings() : Promise.resolve([]),
+      supabaseMock.getUser()
     ]);
     setClasses(allClasses);
-    setBookings(session ? allBookings.map(b => b.class_id) : []);
+    setBookings(session ? allBookings.filter(b => b.user_id === user.id).map(b => b.class_id) : []);
   };
 
   useEffect(() => {

@@ -22,16 +22,17 @@ export default function StudioPage({ params }: { params: Promise<{ id: string }>
   const fetchState = async () => {
     const { data: { session } } = await supabase.auth.getSession();
 
-    const [fetchedStudio, allClasses, allBookings] = await Promise.all([
+    const [fetchedStudio, allClasses, allBookings, user] = await Promise.all([
       supabaseMock.getStudioById(id),
       supabaseMock.getClasses(),
-      session ? supabaseMock.getBookings() : Promise.resolve([])
+      session ? supabaseMock.getBookings() : Promise.resolve([]),
+      supabaseMock.getUser()
     ]);
     if (fetchedStudio) {
       setStudio(fetchedStudio);
       setClasses(allClasses.filter(c => c.studio_id === id));
     }
-    setBookings(session ? allBookings.map(b => b.class_id) : []);
+    setBookings(session ? allBookings.filter(b => b.user_id === user.id).map(b => b.class_id) : []);
     setLoading(false);
   };
 

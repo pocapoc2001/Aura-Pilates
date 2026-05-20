@@ -29,10 +29,10 @@ export default function ProfilePage() {
         .from("profiles")
         .select("credit_balance")
         .eq("id", session.user.id)
-        .single();
+        .maybeSingle();
         
       if (profileError) {
-         console.error("Profile fetch error:", profileError);
+         console.error("Profile fetch error:", profileError.message || profileError);
       }
 
       setUser({
@@ -41,13 +41,16 @@ export default function ProfilePage() {
       });
 
       // Keeping mock data for bookings and classes since we don't have those tables strictly defined in this step
-      const [bks, allCls] = await Promise.all([
+      const [bks, allCls, mockUser] = await Promise.all([
         supabaseMock.getBookings(),
         supabaseMock.getClasses(),
+        supabaseMock.getUser()
       ]);
       
-      // Sort bookings descending
-      const sorted = bks.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      // Sort bookings descending and filter for current user
+      const sorted = bks
+        .filter(b => b.user_id === mockUser.id)
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
       
       // Create lookup map for classes
       const clsMap: { [key: string]: ClassSession } = {};

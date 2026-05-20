@@ -31,10 +31,10 @@ export default function Navbar() {
             .from("profiles")
             .select("credit_balance")
             .eq("id", session.user.id)
-            .single();
+            .maybeSingle();
           
           if (profileError) {
-             console.error("Profile error:", profileError);
+             console.error("Profile error:", profileError.message || profileError);
           }
 
           setUser({
@@ -57,8 +57,18 @@ export default function Navbar() {
         fetchUser();
       });
 
+      const handleBalanceUpdate = () => {
+        fetchUser();
+      };
+      if (typeof window !== "undefined") {
+        window.addEventListener("aura_balance_updated", handleBalanceUpdate);
+      }
+
       return () => {
         subscription?.unsubscribe();
+        if (typeof window !== "undefined") {
+          window.removeEventListener("aura_balance_updated", handleBalanceUpdate);
+        }
       };
     } catch (err) {
       console.error("Auth listener error:", err);

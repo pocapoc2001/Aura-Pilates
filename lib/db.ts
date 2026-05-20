@@ -1,3 +1,5 @@
+import { supabase } from "./supabase";
+
 export type User = {
   id: string;
   name: string;
@@ -231,13 +233,51 @@ export const supabaseMock = {
 
   async getUser(): Promise<User> {
     this.initialize();
-    return JSON.parse(getStorage("aura_user") || "{}");
+    const localUser = JSON.parse(getStorage("aura_user") || "{}");
+    
+    // Check real supabase user
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("credit_balance")
+          .eq("id", session.user.id)
+          .maybeSingle();
+          
+        return {
+          id: session.user.id,
+          name: session.user.email?.split("@")[0] || "User",
+          credit_balance: profile?.credit_balance || 0,
+        };
+      }
+    } catch (err) {
+      console.error("Error fetching real user:", err);
+    }
+    
+    return localUser;
   },
 
   async addCredits(amount: number): Promise<{ success: boolean }> {
     const user = await this.getUser();
     const updatedUser = { ...user, credit_balance: user.credit_balance + amount };
-    setStorage("aura_user", JSON.stringify(updatedUser));
+    
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.id === user.id) {
+        const { error: updateErr } = await supabase
+          .from("profiles")
+          .update({ credit_balance: updatedUser.credit_balance })
+          .eq("id", user.id);
+        if (updateErr) console.error("Add credits update err:", updateErr);
+      } else {
+        setStorage("aura_user", JSON.stringify(updatedUser));
+      }
+    } catch (e) {
+      console.error(e);
+      setStorage("aura_user", JSON.stringify(updatedUser));
+    }
+
     return { success: true };
   },
 
@@ -256,7 +296,7 @@ export const supabaseMock = {
     if (!targetClass) return { success: false, message: "Class not found" };
 
     // 1. Prevent Duplicates
-    const alreadyBooked = bookings.some((b) => b.class_id === classId);
+    const alreadyBooked = bookings.some((b) => b.class_id === classId && b.user_id === user.id);
     if (alreadyBooked) return { success: false, message: "Already Booked" };
 
     // 2. Check Spots
@@ -275,6 +315,31 @@ export const supabaseMock = {
     
     const updatedUser = { ...user, credit_balance: user.credit_balance - targetClass.price };
     
+    // Update real Supabase balance if it is a real user
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.id === user.id) {
+        const { error: updateErr } = await supabase
+          .from("profiles")
+          .update({ credit_balance: updatedUser.credit_balance })
+          .eq("id", user.id);
+        if (updateErr) {
+          console.error("Book update err:", updateErr);
+          if (typeof window !== "undefined") alert("Eroare Supabase la update credits: " + updateErr.message);
+        } else {
+          // If no error, wait to make sure we force a global event so UI updates
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new Event("aura_balance_updated"));
+          }
+        }
+      } else {
+        setStorage("aura_user", JSON.stringify(updatedUser));
+      }
+    } catch (e) {
+      console.error(e);
+      setStorage("aura_user", JSON.stringify(updatedUser));
+    }
+    
     const newBooking: Booking = {
       id: `bkg_${Math.random().toString(36).substring(2, 9)}`,
       user_id: user.id,
@@ -285,7 +350,6 @@ export const supabaseMock = {
 
     // Commit to simulate DB saving
     setStorage("aura_classes", JSON.stringify(updatedClasses));
-    setStorage("aura_user", JSON.stringify(updatedUser));
     setStorage("aura_bookings", JSON.stringify(updatedBookings));
 
     return { success: true, message: "Booked successfully" };
@@ -310,9 +374,25 @@ export const supabaseMock = {
     const updatedClasses = classes.map((c) => (c.id === targetClass.id ? updatedClass : c));
     const updatedUser = { ...user, credit_balance: user.credit_balance + targetClass.price };
 
+    // Update real Supabase balance if it is a real user
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.id === user.id) {
+        const { error: updateErr } = await supabase
+          .from("profiles")
+          .update({ credit_balance: updatedUser.credit_balance })
+          .eq("id", user.id);
+        if (updateErr) console.error("Cancel update err:", updateErr);
+      } else {
+        setStorage("aura_user", JSON.stringify(updatedUser));
+      }
+    } catch (e) {
+      console.error(e);
+      setStorage("aura_user", JSON.stringify(updatedUser));
+    }
+
     // Commit
     setStorage("aura_classes", JSON.stringify(updatedClasses));
-    setStorage("aura_user", JSON.stringify(updatedUser));
     setStorage("aura_bookings", JSON.stringify(updatedBookings));
 
     return { success: true, message: "Canceled successfully" };

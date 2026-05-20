@@ -14,5 +14,6 @@ const isValidUrl = (url: string) => {
 };
 
 const finalUrl = isValidUrl(supabaseUrl) ? supabaseUrl : 'https://placeholder-url.supabase.co';
+const cleanUrl = finalUrl.replace(/\/rest\/v1\/?$/, '');
 
-export const supabase = createClient(finalUrl, supabaseAnonKey);
+export const supabase = createClient(cleanUrl, supabaseAnonKey);

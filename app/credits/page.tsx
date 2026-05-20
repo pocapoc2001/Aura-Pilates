@@ -27,7 +27,7 @@ export default function CreditsPage() {
         .from("profiles")
         .select("credit_balance")
         .eq("id", session.user.id)
-        .single();
+        .maybeSingle();
 
       setUser({
         id: session.user.id,
@@ -55,6 +55,9 @@ export default function CreditsPage() {
     if (!error) {
       setUser({ ...user, credit_balance: newBalance });
       setToast(`Successfully purchased ${amount} credits.`);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("aura_balance_updated"));
+      }
       setTimeout(() => setToast(null), 3000);
     } else {
       setToast(`Checkout failed.`);
