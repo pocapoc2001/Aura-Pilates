@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { supabase } from "@/lib/supabase";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const { lang, setLang, t } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<{ email: string; credit_balance: number } | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -171,16 +172,62 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={handleLogOut}
-                  className="w-10 h-10 flex items-center justify-center rounded-full text-[#5C5351] hover:text-red-500 hover:bg-red-50 transition-colors duration-300"
+                  className="hidden sm:flex w-10 h-10 items-center justify-center rounded-full text-[#5C5351] hover:text-red-500 hover:bg-red-50 transition-colors duration-300"
                   title="Log Out"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
             )}
+            
+            <button
+              className="lg:hidden p-2 text-[#3A3331]"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle Menu"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMenuOpen && (
+        <motion.div 
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          className="lg:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 shadow-lg"
+        >
+          <div className="flex flex-col px-6 py-4 space-y-4 text-center">
+            {!user ? (
+              <>
+                <Link href="/credits" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Prețuri</Link>
+                <Link href="/classes" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Studiouri partenere</Link>
+                <Link href="#" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Despre</Link>
+                <Link href="#" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Pentru companii</Link>
+                <Link href="#" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Blog</Link>
+                <Link href="#" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Contact</Link>
+              </>
+            ) : (
+              <>
+                <Link href="/classes" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">{t.classes}</Link>
+                <Link href="/credits" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">{t.credits}</Link>
+                <Link href="/profile" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">{t.profile}</Link>
+                <button
+                  onClick={() => {
+                    handleLogOut();
+                    setIsMenuOpen(false);
+                  }}
+                  className="py-2 text-red-500 hover:text-red-600"
+                >
+                  Deconectare
+                </button>
+              </>
+            )}
+          </div>
+        </motion.div>
+      )}
     </motion.nav>
   );
 }

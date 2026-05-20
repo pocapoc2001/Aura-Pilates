@@ -235,11 +235,11 @@ export default function Home() {
               <p className="text-[#5C5351] mb-16 text-lg font-light max-w-xl">Alege un model flexibil care pune experiența și confortul tău pe primul loc, fără compromisuri.</p>
               
               <div className="w-full max-w-lg bg-white rounded-[3rem] p-10 md:p-14 shadow-2xl shadow-[#C29D8D]/10 border border-[#C29D8D]/20 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 px-6 py-2 bg-[#C29D8D] text-white text-xs font-bold uppercase tracking-wider rounded-bl-2xl">Cel mai popular</div>
+                  <div className="absolute top-0 right-0 px-6 py-2 bg-[#8F9D82] text-white text-xs font-bold uppercase tracking-wider rounded-bl-2xl">Începe Acum</div>
                   
-                  <h3 className="text-2xl font-serif text-[#3A3331] mb-2 text-left">Abonament Premium</h3>
+                  <h3 className="text-2xl font-serif text-[#3A3331] mb-2 text-left">Abonament Starter</h3>
                   <div className="flex items-baseline gap-2 mb-8 text-left">
-                      <span className="text-6xl font-serif text-[#3A3331] tracking-tight">179</span>
+                      <span className="text-6xl font-serif text-[#3A3331] tracking-tight">149</span>
                       <span className="text-xl text-[#5C5351]">RON / lună</span>
                   </div>
 
@@ -248,13 +248,13 @@ export default function Home() {
                           <div className="w-6 h-6 rounded-full bg-[#F5EFEB] flex items-center justify-center flex-shrink-0 text-[#C29D8D]">
                               <Check className="w-4 h-4" />
                           </div>
-                          <span className="text-[#5C5351]">Acces la toate studiourile partenere</span>
+                          <span className="text-[#5C5351]">Acces la clase Mat Pilates</span>
                       </div>
                       <div className="flex items-center gap-3">
                           <div className="w-6 h-6 rounded-full bg-[#F5EFEB] flex items-center justify-center flex-shrink-0 text-[#C29D8D]">
                               <Check className="w-4 h-4" />
                           </div>
-                          <span className="text-[#5C5351]">Fara taxe ascunse</span>
+                          <span className="text-[#5C5351]">Păstrezi maxim 5 credite nefolosite pentru luna viitoare</span>
                       </div>
                       <div className="flex items-center gap-3">
                           <div className="w-6 h-6 rounded-full bg-[#F5EFEB] flex items-center justify-center flex-shrink-0 text-[#C29D8D]">
@@ -264,13 +264,12 @@ export default function Home() {
                       </div>
                   </div>
 
-                  <Link href="/credits" className="w-full py-5 rounded-2xl bg-[#3A3331] text-white font-semibold text-center hover:bg-[#2A2321] transition-colors flex items-center justify-center">
-                      Vreau Abonament
+                  <Link href="/credits" className="w-full py-5 rounded-2xl bg-[#FCFAFA] text-[#3A3331] border border-gray-100 font-medium hover:bg-[#FAF7F6] transition-colors flex items-center justify-center shadow-sm">
+                      Vezi Toate Abonamentele
                   </Link>
 
-                  <div className="mt-8 pt-6 border-t border-[#3A3331]/5 flex items-center justify-center gap-2 text-sm text-[#5C5351]">
-                      <ShieldCheck className="w-5 h-5 text-[#C29D8D]" />
-                      <span>Garanție 10 zile - Banii înapoi garantat</span>
+                  <div className="mt-8 pt-6 border-t border-[#3A3331]/5 flex flex-col items-center justify-center gap-2 text-sm text-[#5C5351]">
+                      <span className="text-[#C29D8D] font-medium tracking-wide uppercase text-xs">Primești 20 Credite</span>
                   </div>
               </div>
           </div>

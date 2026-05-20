@@ -142,7 +142,7 @@ export default function CreditsPage() {
             </div>
             
             <ul className="space-y-4 mb-10 flex-1">
-              {['Acces la clase Mat Pilates', 'Reportezi maxim 5 credite'].map(feature => (
+              {['Acces la clase Mat Pilates', 'Păstrezi maxim 5 credite nefolosite pentru luna viitoare'].map(feature => (
                 <li key={feature} className="flex items-start text-sm text-[#3A3331]">
                   <Check className="w-5 h-5 text-[#8F9D82] mr-3 flex-shrink-0" />
                   <span className="font-light">{feature}</span>
@@ -185,7 +185,7 @@ export default function CreditsPage() {
             </div>
             
             <ul className="space-y-4 mb-10 flex-1 relative z-10">
-              {['Acces la studiouri Reformer premium', 'Reportezi maxim 10 credite', 'Fără taxe ascunse'].map(feature => (
+              {['Acces la studiouri Reformer premium', 'Păstrezi maxim 10 credite nefolosite pentru luna viitoare', 'Fără taxe ascunse'].map(feature => (
                 <li key={feature} className="flex items-start text-sm text-[#3A3331]">
                   <Check className="w-5 h-5 text-[#8F9D82] mr-3 flex-shrink-0" />
                   <span className="font-light">{feature}</span>
