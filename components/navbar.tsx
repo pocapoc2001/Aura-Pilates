@@ -94,7 +94,7 @@ export default function Navbar() {
             <div className="w-2 h-2 rounded-full bg-[#FCFAFA]" />
           </div>
           <span className="font-serif text-xl tracking-wide text-[#3A3331] font-semibold">
-            Aura
+            Anel
           </span>
         </Link>
 
@@ -104,10 +104,9 @@ export default function Navbar() {
               <>
                 <Link href="/credits" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Prețuri</Link>
                 <Link href="/classes" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Studiouri partenere</Link>
-                <Link href="#" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Despre</Link>
-                <Link href="#" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Pentru companii</Link>
-                <Link href="#" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Blog</Link>
-                <Link href="#" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Contact</Link>
+                <Link href="/about" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Despre</Link>
+                <Link href="/blog" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Blog</Link>
+                <Link href="/contact" className="text-[#5C5351] hover:text-[#3A3331] transition-colors">Contact</Link>
               </>
             ) : (
               <>
@@ -204,10 +203,9 @@ export default function Navbar() {
               <>
                 <Link href="/credits" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Prețuri</Link>
                 <Link href="/classes" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Studiouri partenere</Link>
-                <Link href="#" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Despre</Link>
-                <Link href="#" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Pentru companii</Link>
-                <Link href="#" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Blog</Link>
-                <Link href="#" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Contact</Link>
+                <Link href="/about" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Despre</Link>
+                <Link href="/blog" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Blog</Link>
+                <Link href="/contact" onClick={() => setIsMenuOpen(false)} className="py-2 text-[#5C5351] hover:text-[#3A3331]">Contact</Link>
               </>
             ) : (
               <>

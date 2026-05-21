@@ -17,7 +17,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Aura Pilates | Premium Booking',
+  title: 'Anel Pilates | Premium Booking',
   description: 'Premium Pilates Booking SaaS Platform',
 };
 

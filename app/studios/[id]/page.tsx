@@ -39,6 +39,7 @@ export default function StudioPage({ params }: { params: Promise<{ id: string }>
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchState();
   }, [id]);
 

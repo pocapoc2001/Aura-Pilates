@@ -49,7 +49,7 @@ const isBrowser = typeof window !== "undefined";
 const INITIAL_STUDIOS: Studio[] = [
   {
     id: "std_1",
-    name: "Aura Core Dorobanti",
+    name: "Anel Core Dorobanti",
     description: "Our flagship location featuring state-of-the-art align reformers and a calming minimal aesthetic. Natural light floods the space, perfect for your morning flow.",
     lat: 44.456,
     lng: 26.095,
@@ -84,7 +84,7 @@ const INITIAL_CLASSES: ClassSession[] = [
     id: "cls_1",
     title: "Morning Flow",
     studio_id: "std_1",
-    studio: "Aura Core Dorobanti",
+    studio: "Anel Core Dorobanti",
     focus: "Reformer Intro",
     activity_type: "Reformer",
     time_of_day: "Morning",
@@ -100,7 +100,7 @@ const INITIAL_CLASSES: ClassSession[] = [
     id: "cls_2",
     title: "Advanced Posture",
     studio_id: "std_1",
-    studio: "Aura Core Dorobanti",
+    studio: "Anel Core Dorobanti",
     focus: "Reformer Advanced",
     activity_type: "Reformer",
     time_of_day: "Morning",

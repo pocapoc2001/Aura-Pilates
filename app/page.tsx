@@ -61,7 +61,7 @@ export default function Home() {
   return (
     <div className="flex-1 flex flex-col w-full bg-[#FCFAFA] selection:bg-[#C29D8D] selection:text-white">
       {/* 2. HERO SECTION */}
-      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center pt-32 pb-20 px-6 lg:px-12 overflow-hidden">
+      <section className="relative w-full min-h-[70vh] flex flex-col items-center justify-center pt-6 lg:pt-8 pb-20 px-6 lg:px-12 overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-[#FCFAFA] via-[#FCFAFA] to-[#F5EFEB]/50 -z-20" />
         <div className="absolute top-[10%] right-[-5%] w-[800px] h-[800px] rounded-full bg-[#C29D8D]/15 blur-[120px] -z-10 pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-[#C29D8D]/10 blur-[100px] -z-10 pointer-events-none" />
@@ -389,7 +389,7 @@ export default function Home() {
               {isRo ? "Libertate vs. Constrângere" : "Freedom vs. Constraint"}
             </span>
             <h2 className="font-serif text-3xl md:text-4xl text-[#3A3331] font-light">
-              {isRo ? "Abonament Clasic vs. Ecosistemul Aura" : "Traditional Pass vs. The Aura Network"}
+              {isRo ? "Abonament Clasic vs. Ecosistemul Anel" : "Traditional Pass vs. The Anel Network"}
             </h2>
           </div>
 
@@ -415,14 +415,14 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* The Aura Way */}
+            {/* The Anel Way */}
             <div className="bg-[#3A3331] text-white rounded-[2rem] p-8 border border-transparent shadow-xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 bg-[#C29D8D] text-white text-[10px] font-bold uppercase tracking-wider rounded-bl-xl">
                 {isRo ? "Recomandat" : "Recommended"}
               </div>
               <h3 className="font-serif text-lg mb-6 flex items-center gap-2 text-[#C29D8D]">
                 <Sparkles className="w-4 h-4 animate-pulse text-[#C29D8D]" />
-                {isRo ? "Abonamentul Unic Aura Wellness" : "The Aura Multi-Studio Passport"}
+                {isRo ? "Abonamentul Unic Anel Wellness" : "The Anel Multi-Studio Passport"}
               </h3>
               <ul className="space-y-4">
                 {[
@@ -494,7 +494,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-[#C29D8D] font-semibold text-xs tracking-widest uppercase mb-3 block">
-              {isRo ? "Comunitatea Aura" : "The Aura Circle"}
+              {isRo ? "Comunitatea Anel" : "The Anel Circle"}
             </span>
             <h2 className="font-serif text-3xl md:text-4xl text-[#3A3331] font-light">
               {isRo ? "Ce spun membrii noștri premium" : "Loved by our movement community"}
@@ -505,8 +505,8 @@ export default function Home() {
             {[
               {
                 quote: isRo 
-                  ? "Aura mi-a schimbat rutina absolut. Pot face Reformer în Floreasca marți, și Mat în Cotroceni vineri, folosind același abonament!"
-                  : "Aura completely revolutionized my weekly flow. Premium Reformer classes in Floreasca on Tuesday, Mat Pilates in Cotroceni on Friday—all with 1 card!",
+                  ? "Anel mi-a schimbat rutina absolut. Pot face Reformer în Floreasca marți, și Mat în Cotroceni vineri, folosind același abonament!"
+                  : "Anel completely revolutionized my weekly flow. Premium Reformer classes in Floreasca on Tuesday, Mat Pilates in Cotroceni on Friday—all with 1 card!",
                 author: "Diana M., Floreasca",
                 role: isRo ? "Membru de 8 luni" : "Member for 8 months",
                 rating: 5,
@@ -514,8 +514,8 @@ export default function Home() {
               },
               {
                 quote: isRo 
-                  ? "Ca trainer, recomand Aura membrilor mei. Flexibilitatea și libertatea de a alege stilul optim de wellness previne plafonarea."
-                  : "As an instructor, I encourage clients to use Aura. Diverse approaches keep training engaging and guarantee rapid full-body realignment.",
+                  ? "Ca trainer, recomand Anel membrilor mei. Flexibilitatea și libertatea de a alege stilul optim de wellness previne plafonarea."
+                  : "As an instructor, I encourage clients to use Anel. Diverse approaches keep training engaging and guarantee rapid full-body realignment.",
                 author: "Andrei R., Instructor Pilates",
                 role: "Lead Trainer Partner",
                 rating: 5,
@@ -546,7 +546,7 @@ export default function Home() {
                     ))}
                   </div>
                   <p className="text-sm text-[#5C5351] font-light italic leading-relaxed text-left">
-                    "{t.quote}"
+                    &ldquo;{t.quote}&rdquo;
                   </p>
                 </div>
 
@@ -600,7 +600,7 @@ export default function Home() {
       <footer className="w-full bg-[#3A3331] py-20 px-6 text-[#FCFAFA]/80">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8 mb-16">
               <div>
-                  <h3 className="font-serif text-2xl font-bold text-white mb-6">Aura</h3>
+                  <h3 className="font-serif text-2xl font-bold text-white mb-6">Anel</h3>
                   <p className="font-light text-sm text-[#FCFAFA]/60 max-w-xs">
                       Rețeaua ta premium de studiouri tip boutique Pilates și wellness. Găsește-ți echilibrul în fiecare zi.
                   </p>
@@ -608,19 +608,16 @@ export default function Home() {
               <div>
                   <h4 className="font-medium text-white mb-6 uppercase tracking-wider text-sm">Companie</h4>
                   <ul className="space-y-4 text-sm font-light">
-                      <li><a href="#" className="hover:text-white transition-colors">Despre Noi</a></li>
-                      <li><a href="/classes" className="hover:text-white transition-colors">Studiouri Partenere</a></li>
-                      <li><a href="/credits" className="hover:text-white transition-colors">Prețuri</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Pentru Companii</a></li>
+                      <li><Link href="/about" className="hover:text-white transition-colors">Despre Noi</Link></li>
+                      <li><Link href="/classes" className="hover:text-white transition-colors">Studiouri Partenere</Link></li>
+                      <li><Link href="/credits" className="hover:text-white transition-colors">Prețuri</Link></li>
                   </ul>
               </div>
               <div>
                   <h4 className="font-medium text-white mb-6 uppercase tracking-wider text-sm">Resurse</h4>
                   <ul className="space-y-4 text-sm font-light">
-                      <li><a href="#" className="hover:text-white transition-colors">Blog Wellness</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Ghid pentru Începători</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Centru de Ajutor (FAQ)</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                      <li><Link href="/blog" className="hover:text-white transition-colors">Blog Wellness</Link></li>
+                      <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
                   </ul>
               </div>
               <div>
@@ -636,7 +633,7 @@ export default function Home() {
               </div>
           </div>
           <div className="max-w-7xl mx-auto pt-8 border-t border-[#FCFAFA]/10 flex flex-col md:flex-row justify-between items-center text-xs font-light text-[#FCFAFA]/40">
-              <p>© 2026 Aura Wellness. Toate drepturile rezervate.</p>
+              <p>© 2026 Anel Wellness. Toate drepturile rezervate.</p>
               <div className="flex space-x-6 mt-4 md:mt-0">
                   <a href="#" className="hover:text-white transition-colors">Termeni și Condiții</a>
                   <a href="#" className="hover:text-white transition-colors">Politică de Confidențialitate</a>

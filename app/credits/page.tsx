@@ -394,7 +394,7 @@ export default function CreditsPage() {
                 /* Interactive Form Fields */
                 <div className="space-y-6">
                   <div className="space-y-1">
-                    <span className="text-xs text-[#C29D8D] font-semibold uppercase tracking-widest">Finalizare comandă Aura Studios</span>
+                    <span className="text-xs text-[#C29D8D] font-semibold uppercase tracking-widest">Finalizare comandă Anel Studios</span>
                     <h3 className="font-serif text-3xl text-[#3A3331]">{selectedProduct.name}</h3>
                     <div className="flex justify-between items-center bg-white border border-[#D2B4A7]/15 p-4 rounded-2xl mt-4">
                       <div className="flex flex-col text-left">
