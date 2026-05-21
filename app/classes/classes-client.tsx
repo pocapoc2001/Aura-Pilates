@@ -36,6 +36,7 @@ export default function ClassesClient({ mapsKey }: { mapsKey: string }) {
   // Filter State
   const [activityType, setActivityType] = useState<string>("All");
   const [timeOfDay, setTimeOfDay] = useState<string>("All");
+  const [sortBy, setSortBy] = useState<"none" | "low" | "high">("none");
 
   const router = useRouter();
 
@@ -92,6 +93,12 @@ export default function ClassesClient({ mapsKey }: { mapsKey: string }) {
       (timeOfDay === "All" || c.time_of_day === timeOfDay)
   );
 
+  const sortedAndFilteredClasses = [...filteredClasses].sort((a, b) => {
+    if (sortBy === "low") return a.price - b.price;
+    if (sortBy === "high") return b.price - a.price;
+    return 0;
+  });
+
   return (
     <div className="flex-1 flex flex-col md:flex-row w-full h-[calc(100vh-80px)] overflow-hidden">
       {/* List Partition (Left Side) */}
@@ -133,11 +140,34 @@ export default function ClassesClient({ mapsKey }: { mapsKey: string }) {
                 </button>
               ))}
             </div>
+            
+            {/* Sorting Pills */}
+            <div className="flex items-center space-x-1.5 text-xs text-[#5C5351] pt-1 border-t border-gray-50 animate-fade-in">
+              <span className="font-medium mr-1 uppercase tracking-wider text-[10px]">{t.sortByCredits || "Sortare cr:"}</span>
+              <button 
+                onClick={() => setSortBy("none")}
+                className={`px-3 py-1 rounded-xl font-medium transition-all ${sortBy === "none" ? "bg-[#3A3331] text-white" : "bg-gray-100 text-[#5C5351] hover:bg-gray-200"}`}
+              >
+                {t.sortDefault || "Implicită"}
+              </button>
+              <button 
+                onClick={() => setSortBy("low")}
+                className={`px-3 py-1 rounded-xl font-medium transition-all ${sortBy === "low" ? "bg-[#8F9D82] text-white" : "bg-gray-100 text-[#5C5351] hover:bg-gray-200"}`}
+              >
+                {t.sortLowHigh || "Min-Max Cr"}
+              </button>
+              <button 
+                onClick={() => setSortBy("high")}
+                className={`px-3 py-1 rounded-xl font-medium transition-all ${sortBy === "high" ? "bg-[#A98273] text-white" : "bg-gray-100 text-[#5C5351] hover:bg-gray-200"}`}
+              >
+                {t.sortHighLow || "Max-Min Cr"}
+              </button>
+            </div>
           </div>
         </div>
 
         <div className="flex-1 overflow-y-auto scrollbar-none p-6 space-y-4">
-          {filteredClasses.map((cls, idx) => {
+          {sortedAndFilteredClasses.map((cls, idx) => {
             const isBooked = bookings.includes(cls.id);
             const isFull = cls.booked_spots >= cls.spots_total;
             const isHovered = hoveredClassId === cls.id;
@@ -206,7 +236,7 @@ export default function ClassesClient({ mapsKey }: { mapsKey: string }) {
               </motion.div>
             );
           })}
-          {filteredClasses.length === 0 && (
+          {sortedAndFilteredClasses.length === 0 && (
             <div className="text-center text-[#5C5351] py-12 font-light">
               No classes found matching your filters.
             </div>

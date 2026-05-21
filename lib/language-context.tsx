@@ -41,6 +41,10 @@ const translations = {
     mapView: "Map View",
     classDetails: "Class Details",
     refundSuccess: "Refunded 2 credits.",
+    sortByCredits: "Sort by Credits:",
+    sortDefault: "Default",
+    sortLowHigh: "Min-Max Cr",
+    sortHighLow: "Max-Min Cr",
   },
   ro: {
     heroTitle: "Perfecționează-ți Practica",
@@ -78,6 +82,10 @@ const translations = {
     mapView: "Hartă",
     classDetails: "Detalii Clasă",
     refundSuccess: "Refundat 2 credite.",
+    sortByCredits: "Sortare cr:",
+    sortDefault: "Implicită",
+    sortLowHigh: "Min-Max Cr",
+    sortHighLow: "Max-Min Cr",
   },
 };
 

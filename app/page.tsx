@@ -3,8 +3,9 @@
 import { motion } from "motion/react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Check, MapPin, Search, Clock, Smartphone, ListFilter, ShieldCheck, ChevronDown } from "lucide-react";
+import { ArrowRight, Check, MapPin, Search, Clock, Smartphone, ListFilter, ShieldCheck, ChevronDown, Award, TrendingUp, Sparkles, Star, Zap, Activity } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/lib/language-context";
 
 const FAQItem = ({ question, answer }: { question: string, answer: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +32,32 @@ const FAQItem = ({ question, answer }: { question: string, answer: string }) => 
 };
 
 export default function Home() {
+  const { lang } = useLanguage();
+  const isRo = lang === "ro";
+
+  // Calculator State
+  const [workoutsPerWeek, setWorkoutsPerWeek] = useState(2);
+  const [preferredClassType, setPreferredClassType] = useState<"reformer" | "mat" | "mixed">("mixed");
+
+  const classesPerMonth = workoutsPerWeek * 4;
+  const creditsMultiplier = preferredClassType === "reformer" ? 2 : preferredClassType === "mat" ? 1 : 1.5;
+  const estimatedCredits = Math.ceil(classesPerMonth * creditsMultiplier);
+
+  // Suggested Plan Decision
+  let recommendedPlanName = isRo ? "Abonament Starter" : "Starter Subscription";
+  let recommendedPlanCredits = 20;
+  let recommendedPlanPrice = "149 RON";
+
+  if (estimatedCredits > 40) {
+    recommendedPlanName = isRo ? "Abonament Elite" : "Elite Subscription";
+    recommendedPlanCredits = 75;
+    recommendedPlanPrice = "399 RON";
+  } else if (estimatedCredits > 20) {
+    recommendedPlanName = isRo ? "Abonament Balance" : "Balance Subscription";
+    recommendedPlanCredits = 40;
+    recommendedPlanPrice = "249 RON";
+  }
+
   return (
     <div className="flex-1 flex flex-col w-full bg-[#FCFAFA] selection:bg-[#C29D8D] selection:text-white">
       {/* 2. HERO SECTION */}
@@ -168,6 +195,132 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 3.5. INTERACTIVE CALCULATOR */}
+      <section id="credits-calculator" className="w-full bg-[#FCFAFA] py-24 border-b border-[#3A3331]/5 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-[#C29D8D] font-semibold text-xs tracking-widest uppercase mb-3 block">
+              {isRo ? "Instrument Interactiv" : "Interactive Tool"}
+            </span>
+            <h2 className="font-serif text-3xl md:text-4xl text-[#3A3331] mb-4 font-light">
+              {isRo ? "Calculator Credite & Recomandare" : "Calculate Your Vibe & Credits"}
+            </h2>
+            <p className="text-[#5C5351] font-light leading-relaxed text-sm md:text-base">
+              {isRo 
+                ? "Află rapid de câte credite ai nevoie lunar în funcție de stilul și frecvența antrenamentelor tale preferate."
+                : "Easily estimate your monthly credit needs based on your training style and frequency."}
+            </p>
+          </div>
+
+          <div className="bg-white rounded-[2.5rem] border border-[#D2B4A7]/20 shadow-2xl shadow-[#C29D8D]/5 p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Input Side */}
+            <div className="space-y-8">
+              {/* Step 1: Frequency */}
+              <div className="space-y-4">
+                <label className="text-xs font-semibold text-[#3A3331] uppercase tracking-wide flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-[#F5EFEB] text-[#C29D8D] font-serif text-xs font-bold flex items-center justify-center">1</span>
+                  {isRo ? "Cât de des vrei să te antrenezi pe săptămână?" : "How many sessions per week?"}
+                </label>
+                <div className="grid grid-cols-4 gap-2">
+                  {[1, 2, 3, 4].map((num) => (
+                    <button
+                      key={num}
+                      type="button"
+                      onClick={() => setWorkoutsPerWeek(num)}
+                      className={`py-3.5 rounded-2xl font-serif text-lg font-medium transition-all ${
+                        workoutsPerWeek === num 
+                          ? "bg-[#C29D8D] text-white shadow-md shadow-[#C29D8D]/25" 
+                          : "bg-[#F5EFEB]/40 hover:bg-[#F5EFEB]/80 text-[#3A3331]"
+                      }`}
+                    >
+                      {num === 4 ? `${num}+` : num}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex justify-between items-center text-[11px] text-[#5C5351] font-light px-1">
+                  <span>{isRo ? "Aproape deloc" : "Occasional"}</span>
+                  <span>{isRo ? "Activ & Dedicat" : "Active & Dedicated"}</span>
+                </div>
+              </div>
+
+              {/* Step 2: Workout Type */}
+              <div className="space-y-4">
+                <label className="text-xs font-semibold text-[#3A3331] uppercase tracking-wide flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-[#F5EFEB] text-[#C29D8D] font-serif text-xs font-bold flex items-center justify-center">2</span>
+                  {isRo ? "Ce tip de clase preferi în general?" : "What core classes do you prefer?"}
+                </label>
+                <div className="space-y-2">
+                  {[
+                    { id: "mat", roName: "Mat Pilates & Yoga (1 cr/clasă)", enName: "Mat Pilates & Yoga (1 cr/class)" },
+                    { id: "reformer", roName: "Reformer Pilates Premium (2 cr/clasă)", enName: "Premium Reformer Pilates (2 cr/class)" },
+                    { id: "mixed", roName: "Stil mixt / Alternat (1.5 cr/clasă)", enName: "Mixed / Alternated (1.5 cr/class)" }
+                  ].map((style) => (
+                    <button
+                      key={style.id}
+                      type="button"
+                      onClick={() => setPreferredClassType(style.id as any)}
+                      className={`w-full p-4 rounded-xl text-left text-sm font-medium transition-all flex items-center justify-between border ${
+                        preferredClassType === style.id 
+                          ? "border-[#C29D8D] bg-[#F5EFEB]/20 text-[#3A3331]" 
+                          : "border-gray-100 hover:bg-gray-50 text-[#5C5351]"
+                      }`}
+                    >
+                      <span>{isRo ? style.roName : style.enName}</span>
+                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${preferredClassType === style.id ? "border-[#C29D8D]" : "border-gray-300"}`}>
+                        {preferredClassType === style.id && <div className="w-2 h-2 rounded-full bg-[#C29D8D]" />}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Recommendation Side */}
+            <div className="bg-[#F5EFEB]/30 rounded-3xl p-6 md:p-8 border border-dashed border-[#C29D8D]/20 flex flex-col justify-between h-full space-y-6">
+              <div className="space-y-4 text-center md:text-left">
+                <span className="px-3 py-1 rounded-full bg-[#8F9D82]/10 text-[#8F9D82] text-[10px] font-bold uppercase tracking-wider inline-block">
+                  {isRo ? "Obiectiv lunar estimat" : "Estimated Monthly Scope"}
+                </span>
+
+                <div className="grid grid-cols-2 gap-4 divide-x divide-gray-200/50 mt-2">
+                  <div className="space-y-1 text-left">
+                    <span className="text-3xl md:text-4xl font-serif text-[#3A3331] font-semibold block">{classesPerMonth}</span>
+                    <span className="text-[10px] text-[#5C5351] font-light uppercase tracking-wider">{isRo ? "clase / lună" : "classes / month"}</span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-left">
+                    <span className="text-3xl md:text-4xl font-serif text-[#C29D8D] font-bold block">{estimatedCredits}</span>
+                    <span className="text-[10px] text-[#5C5351] font-light uppercase tracking-wider">{isRo ? "credite necesare" : "credits needed"}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-gray-200/40 space-y-3 text-left">
+                <span className="text-xs text-[#5C5351] block font-light">
+                  {isRo ? "Abonament lunar recomandat pentru tine:" : "Financially optimal plan for you:"}
+                </span>
+                <div className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-gray-100">
+                  <div className="space-y-0.5">
+                    <span className="font-serif font-semibold text-sm text-[#3A3331] block">{recommendedPlanName}</span>
+                    <span className="text-xs text-[#8F9D82] font-medium block">
+                      {isRo ? `Include ${recommendedPlanCredits} Credite` : `Includes ${recommendedPlanCredits} Credits`}
+                    </span>
+                  </div>
+                  <span className="font-serif font-bold text-lg text-[#3A3331]">{recommendedPlanPrice}</span>
+                </div>
+              </div>
+
+              <Link
+                href="/credits"
+                className="w-full py-4 rounded-2xl bg-[#3A3331] hover:bg-[#2A2321] text-white text-xs font-semibold tracking-widest uppercase text-center transition-all shadow-md inline-flex items-center justify-center gap-2"
+              >
+                <span>{isRo ? "Cumpără / Vezi Detalii" : "Choose Subscription"}</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 5. THE "WHY US" BENEFITS */}
       <section className="w-full bg-[#FCFAFA] py-32 px-6 lg:px-12">
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
@@ -228,6 +381,67 @@ export default function Home() {
           </div>
       </section>
 
+      {/* 5.5. COMPARISON SECTION */}
+      <section className="w-full bg-[#F5EFEB]/30 py-24 px-6 border-y border-[#3A3331]/5">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-[#C29D8D] font-semibold text-xs tracking-widest uppercase mb-3 block">
+              {isRo ? "Libertate vs. Constrângere" : "Freedom vs. Constraint"}
+            </span>
+            <h2 className="font-serif text-3xl md:text-4xl text-[#3A3331] font-light">
+              {isRo ? "Abonament Clasic vs. Ecosistemul Aura" : "Traditional Pass vs. The Aura Network"}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* The Old Way */}
+            <div className="bg-white/60 rounded-[2rem] p-8 border border-gray-150 opacity-80">
+              <h3 className="font-serif text-lg text-gray-500 mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-gray-300" />
+                {isRo ? "Abonament la un singur studio clasic" : "Single Traditional Studio Pass"}
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  isRo ? "Te plictisești rapid făcând același tip de exercițiu mereu." : "Get bored easily repeating the same class style.",
+                  isRo ? "Legat contractual de o singură locație fixă geografic." : "Contractually locked to a single physical address.",
+                  isRo ? "Pierzi toate clasele nefolosite la finalul lunii în curs." : "Lose all unused sessions at the end of each billing cycle.",
+                  isRo ? "Taxe de înscriere inițiale și anulare anevoioasă." : "Steep initiation fees and annoying cancellation policies.",
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-xs md:text-sm text-gray-500 font-light">
+                    <span className="text-red-400 mt-1 font-semibold">✕</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* The Aura Way */}
+            <div className="bg-[#3A3331] text-white rounded-[2rem] p-8 border border-transparent shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-4 bg-[#C29D8D] text-white text-[10px] font-bold uppercase tracking-wider rounded-bl-xl">
+                {isRo ? "Recomandat" : "Recommended"}
+              </div>
+              <h3 className="font-serif text-lg mb-6 flex items-center gap-2 text-[#C29D8D]">
+                <Sparkles className="w-4 h-4 animate-pulse text-[#C29D8D]" />
+                {isRo ? "Abonamentul Unic Aura Wellness" : "The Aura Multi-Studio Passport"}
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  isRo ? "Varietate absolută: Reformer, Mat Pilates, Yoga și Barre dintr-un singur cont." : "Infinite variety: Reformer, Mat Pilates, Yoga & Barre.",
+                  isRo ? "Flexibilitate geografică totală în 10+ studiouri de top din oraș." : "Total geographic freedom across 10+ premium boutique studios.",
+                  isRo ? "Păstrezi creditele nefolosite pentru luna viitoare în siguranță (până la 5/10 cr)." : "Roll over unused credits to next month safely (up to 5/10 cr).",
+                  isRo ? "Anulezi instant oricând dorești cu un singur click direct din contul tău." : "Instant digital cancellation with 1 automated click.",
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-xs md:text-sm font-light">
+                    <Check className="text-[#8F9D82] mt-1 shrink-0 w-4 h-4" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 6. PRICING PREVIEW CARD */}
       <section className="w-full bg-[#EAE1DF]/30 py-32 px-6">
           <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
@@ -273,6 +487,88 @@ export default function Home() {
                   </div>
               </div>
           </div>
+      </section>
+
+      {/* 6.5. TESTIMONIALS SECTION */}
+      <section className="w-full bg-[#FCFAFA] py-24 px-6 border-b border-[#3A3331]/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-[#C29D8D] font-semibold text-xs tracking-widest uppercase mb-3 block">
+              {isRo ? "Comunitatea Aura" : "The Aura Circle"}
+            </span>
+            <h2 className="font-serif text-3xl md:text-4xl text-[#3A3331] font-light">
+              {isRo ? "Ce spun membrii noștri premium" : "Loved by our movement community"}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                quote: isRo 
+                  ? "Aura mi-a schimbat rutina absolut. Pot face Reformer în Floreasca marți, și Mat în Cotroceni vineri, folosind același abonament!"
+                  : "Aura completely revolutionized my weekly flow. Premium Reformer classes in Floreasca on Tuesday, Mat Pilates in Cotroceni on Friday—all with 1 card!",
+                author: "Diana M., Floreasca",
+                role: isRo ? "Membru de 8 luni" : "Member for 8 months",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&q=80&fit=crop"
+              },
+              {
+                quote: isRo 
+                  ? "Ca trainer, recomand Aura membrilor mei. Flexibilitatea și libertatea de a alege stilul optim de wellness previne plafonarea."
+                  : "As an instructor, I encourage clients to use Aura. Diverse approaches keep training engaging and guarantee rapid full-body realignment.",
+                author: "Andrei R., Instructor Pilates",
+                role: "Lead Trainer Partner",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80&fit=crop"
+              },
+              {
+                quote: isRo 
+                  ? "Sistemul cu credite e genial. În lunile în care am concedii ori călătorii, reportez până la 5 credite în luna viitoare. Nu pierd nimic!"
+                  : "The rollover is amazing. If I go on holiday, I can securely carry over up to 5 credits to next month. No losses, total respect for members.",
+                author: "Ana-Maria S., Business Analyst",
+                role: isRo ? "Membru Elite" : "Elite Member",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80&fit=crop"
+              }
+            ].map((t, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="bg-[#F5EFEB]/30 p-8 rounded-[2rem] border border-[#D2B4A7]/10 flex flex-col justify-between space-y-8 hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="space-y-4">
+                  <div className="flex gap-1">
+                    {[...Array(t.rating)].map((_, idx) => (
+                      <Star key={idx} className="w-4 h-4 fill-[#C29D8D] text-transparent" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-[#5C5351] font-light italic leading-relaxed text-left">
+                    "{t.quote}"
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
+                  <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border border-[#C29D8D]/20">
+                    <Image 
+                      src={t.img} 
+                      alt={t.author} 
+                      fill 
+                      className="object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-serif font-medium text-sm text-[#3A3331]">{t.author}</h4>
+                    <p className="text-[10px] text-[#C29D8D] uppercase tracking-wider mt-0.5 font-semibold">{t.role}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* 7. FAQ SECTION */}
